@@ -1,23 +1,29 @@
 const http = require('http');
 const fs = require('fs');
 
+
 const server = http.createServer((req, res) => {
-  if (req.url === '/Home') {
-    fs.readFile('index.html', 'utf8', (err, data) => {
-      if (err) {
-        console.error(err);
-        res.writeHead(500, { 'Content-Type': 'text/plain' });
-        res.end('Internal Server Error');
-      } else {
-        const modifiedContent = data.replace('<%= name %>', 'John Doe');
-        res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.end(modifiedContent);
-      }
-    });
-  } else {
-    res.writeHead(404, { 'Content-Type': 'text/plain' });
-    res.end('Not Found');
-  }
+   const filePath = 'index.html';
+
+
+   if(req.url == "/Home"){
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+          console.error(err);
+          res.writeHead(500, { 'Content-Type': 'text/plain' });
+          res.end('Internal Server Error');
+          return;
+        }
+        else{
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            const modifiedContent = data.replace('Hello', 'John Doe');
+            res.end(modifiedContent);
+        }
+       
+      });
+   }
+
+
 });
 
 const port = 8000;
